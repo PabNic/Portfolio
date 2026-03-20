@@ -3,11 +3,12 @@
 import { motion, easeInOut } from "framer-motion";
 
 export default function Home() {
-  const fadeUp = {
-    hidden: { opacity: 0, y: 20 },
+  const fadeBlurUp = {
+    hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
     show: {
       opacity: 1,
       y: 0,
+      filter: "blur(0px)",
       transition: {
         duration: 0.6,
         ease: easeInOut,
@@ -19,13 +20,14 @@ export default function Home() {
     hidden: {},
     show: {
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.06,
+        delayChildren: 0.1,
       },
     },
   };
 
   return (
-    <main className="flex flex-col flex-1 w-full max-w-2xl mx-auto px-4 py-24 gap-32">
+    <main className="flex flex-col flex-1 w-full max-w-2xl mx-auto px-4 py-24 gap-32 scroll-smooth">
       {/* Hero */}
       <motion.section
         variants={stagger}
@@ -43,21 +45,21 @@ export default function Home() {
         />
 
         <motion.p
-          variants={fadeUp}
+          variants={fadeBlurUp}
           className="text-sm uppercase tracking-widest text-zinc-400"
         >
           Product over code
         </motion.p>
 
         <motion.h1
-          variants={fadeUp}
+          variants={fadeBlurUp}
           className="text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 leading-tight"
         >
           Pablo Bottoni
         </motion.h1>
 
         <motion.p
-          variants={fadeUp}
+          variants={fadeBlurUp}
           className="text-xl text-zinc-500 dark:text-zinc-400 max-w-lg font-light"
         >
           I build digital products by aligning business goals, user needs, and
@@ -73,19 +75,19 @@ export default function Home() {
         variants={stagger}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true }}
+        viewport={{ once: false, margin: "-100px" }}
         className="flex flex-col gap-4 py-8"
       >
         <motion.h2
-          variants={fadeUp}
+          variants={fadeBlurUp}
           className="text-lg font-medium text-zinc-700 dark:text-zinc-300 uppercase tracking-widest"
         >
           Experience
         </motion.h2>
 
         <motion.div
-          variants={fadeUp}
-          className="text-zinc-800 dark:text-zinc-200 text-base font-light space-y-4"
+          variants={fadeBlurUp}
+          className="text-zinc-800 dark:text-zinc-200 text-base font-light space-y-5 leading-relaxed"
         >
           <div>
             <div className="text-zinc-900 dark:text-zinc-100">Nomad Locals</div>
@@ -118,19 +120,19 @@ export default function Home() {
         variants={stagger}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true }}
+        viewport={{ once: false, margin: "-100px" }}
         className="flex flex-col gap-4 py-8"
       >
         <motion.h2
-          variants={fadeUp}
+          variants={fadeBlurUp}
           className="text-lg font-medium text-zinc-700 dark:text-zinc-300 uppercase tracking-widest"
         >
           Approach
         </motion.h2>
 
         <motion.div
-          variants={fadeUp}
-          className="text-zinc-600 dark:text-zinc-400 text-base font-light max-w-xl space-y-2"
+          variants={fadeBlurUp}
+          className="text-zinc-600 dark:text-zinc-400 text-base font-light max-w-xl space-y-3 leading-relaxed"
         >
           <p>
             I focus on understanding the problem before proposing solutions.
@@ -151,21 +153,21 @@ export default function Home() {
         variants={stagger}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true }}
+        viewport={{ once: false, margin: "-100px" }}
         className="flex flex-col gap-6 py-8"
       >
         <motion.h2
-          variants={fadeUp}
+          variants={fadeBlurUp}
           className="text-lg font-medium text-zinc-700 dark:text-zinc-300 uppercase tracking-widest"
         >
           Selected Work
         </motion.h2>
 
         <motion.div
-          variants={fadeUp}
-          className="flex flex-col gap-3 text-zinc-800 dark:text-zinc-200 text-base font-light"
+          variants={fadeBlurUp}
+          className="flex flex-col gap-3 text-zinc-800 dark:text-zinc-200 text-base font-light leading-relaxed"
         >
-          <h3 className="text-zinc-900 dark:text-zinc-100 transition-opacity duration-300 hover:opacity-70">
+          <h3 className="text-zinc-900 dark:text-zinc-100 transition-all duration-300 hover:opacity-70">
             From idea to shipped product
           </h3>
 
@@ -190,20 +192,20 @@ export default function Home() {
         variants={stagger}
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true }}
+        viewport={{ once: false, margin: "-100px" }}
         className="flex flex-col gap-4 py-8 items-center text-center"
       >
         <motion.h2
-          variants={fadeUp}
+          variants={fadeBlurUp}
           className="text-lg font-medium text-zinc-700 dark:text-zinc-300 uppercase tracking-widest"
         >
           Contact
         </motion.h2>
 
         <motion.a
-          variants={fadeUp}
+          variants={fadeBlurUp}
           href="mailto:polches@gmail.com"
-          className="text-zinc-600 dark:text-zinc-400 underline underline-offset-4 hover:opacity-70"
+          className="text-zinc-600 dark:text-zinc-400 underline underline-offset-4 hover:opacity-70 transition-all duration-300"
         >
           polches@gmail.com
         </motion.a>
