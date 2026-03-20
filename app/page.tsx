@@ -202,10 +202,10 @@ export default function Home() {
 
         <motion.a
           variants={fadeUp}
-          href="mailto:your.email@example.com"
+          href="mailto:polches@gmail.com"
           className="text-zinc-600 dark:text-zinc-400 underline underline-offset-4 hover:opacity-70"
         >
-          your.email@example.com
+          polches@gmail.com
         </motion.a>
       </motion.section>
     </main>
