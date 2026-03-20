@@ -61,6 +61,10 @@ export default function Home() {
           Pablo Bottoni
         </motion.h1>
 
+        <motion.p className="text-sm text-zinc-400">
+          Technical Product Manager
+        </motion.p>
+
         <motion.p
           variants={fadeBlurUp}
           className="text-xl text-zinc-500 dark:text-zinc-400 max-w-lg font-light leading-relaxed"
