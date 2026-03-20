@@ -1,8 +1,11 @@
 "use client";
 
 import { motion, easeInOut } from "framer-motion";
+import { useState } from "react";
 
 export default function Home() {
+  const [open, setOpen] = useState(false);
+
   const fadeBlurUp = {
     hidden: { opacity: 0, y: 20, filter: "blur(8px)" },
     show: {
@@ -165,25 +168,66 @@ export default function Home() {
 
         <motion.div
           variants={fadeBlurUp}
-          className="flex flex-col gap-3 text-zinc-800 dark:text-zinc-200 text-base font-light leading-relaxed"
+          className="flex flex-col text-zinc-800 dark:text-zinc-200 text-base font-light leading-relaxed"
         >
-          <h3 className="text-zinc-900 dark:text-zinc-100 transition-all duration-300 hover:opacity-70">
-            From idea to shipped product
-          </h3>
+          {/* CLICKABLE HEADER */}
+          <button onClick={() => setOpen(!open)} className="text-left group">
+            <h3 className="text-zinc-900 dark:text-zinc-100 transition-all duration-300 group-hover:opacity-70">
+              From idea to shipped product
+            </h3>
 
-          <p className="text-zinc-600 dark:text-zinc-400">
-            Worked directly with stakeholders to define scope, break down
-            features, and transform ideas into clear, executable tasks.
-          </p>
+            <p className="text-zinc-500 text-sm mt-1">Click to expand</p>
+          </button>
 
-          <p className="text-zinc-600 dark:text-zinc-400">
-            Led the process from initial concept to delivery, ensuring alignment
-            between business goals and technical execution.
-          </p>
+          {/* EXPANDABLE CONTENT */}
+          <motion.div
+            initial={false}
+            animate={{
+              height: open ? "auto" : 0,
+              opacity: open ? 1 : 0,
+              marginTop: open ? 16 : 0,
+            }}
+            transition={{
+              duration: 0.4,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="overflow-hidden flex flex-col gap-4"
+          >
+            <div className="text-zinc-600 dark:text-zinc-400">
+              <strong className="text-zinc-800 dark:text-zinc-200">
+                Context:
+              </strong>{" "}
+              Worked with stakeholders to turn an early-stage idea into a
+              functional product with clear priorities and defined scope.
+            </div>
 
-          <p className="text-zinc-500 text-sm mt-1">
-            Focus: discovery · scope definition · delivery
-          </p>
+            <div className="text-zinc-600 dark:text-zinc-400">
+              <strong className="text-zinc-800 dark:text-zinc-200">
+                Problem:
+              </strong>{" "}
+              The initial idea lacked structure, making it difficult for the
+              team to execute and deliver consistently.
+            </div>
+
+            <div className="text-zinc-600 dark:text-zinc-400">
+              <strong className="text-zinc-800 dark:text-zinc-200">
+                Actions:
+              </strong>
+              <ul className="list-disc pl-5 mt-1 space-y-1">
+                <li>Defined scope and broke down features into clear tasks</li>
+                <li>Aligned stakeholders around priorities and expectations</li>
+                <li>Organized delivery in short, iterative cycles</li>
+              </ul>
+            </div>
+
+            <div className="text-zinc-600 dark:text-zinc-400">
+              <strong className="text-zinc-800 dark:text-zinc-200">
+                Outcome:
+              </strong>{" "}
+              Delivered a functional product with improved clarity, faster
+              execution, and better alignment between business and development.
+            </div>
+          </motion.div>
         </motion.div>
       </motion.section>
 
