@@ -23,8 +23,8 @@ export default function Home() {
     hidden: {},
     show: {
       transition: {
-        staggerChildren: 0.06,
-        delayChildren: 0.1,
+        staggerChildren: 0.05,
+        delayChildren: 0.12,
       },
     },
   };
@@ -63,7 +63,7 @@ export default function Home() {
 
         <motion.p
           variants={fadeBlurUp}
-          className="text-xl text-zinc-500 dark:text-zinc-400 max-w-lg font-light"
+          className="text-xl text-zinc-500 dark:text-zinc-400 max-w-lg font-light leading-relaxed"
         >
           I build digital products by aligning business goals, user needs, and
           technical execution.
@@ -90,7 +90,7 @@ export default function Home() {
 
         <motion.div
           variants={fadeBlurUp}
-          className="text-zinc-800 dark:text-zinc-200 text-base font-light space-y-5 leading-relaxed"
+          className="text-zinc-800 dark:text-zinc-200 text-base font-light space-y-6 leading-relaxed max-w-prose"
         >
           <div>
             <div className="text-zinc-900 dark:text-zinc-100">Nomad Locals</div>
@@ -135,7 +135,7 @@ export default function Home() {
 
         <motion.div
           variants={fadeBlurUp}
-          className="text-zinc-600 dark:text-zinc-400 text-base font-light max-w-xl space-y-3 leading-relaxed"
+          className="text-zinc-600 dark:text-zinc-400 text-base font-light max-w-prose space-y-3 leading-relaxed"
         >
           <p>
             I focus on understanding the problem before proposing solutions.
@@ -168,15 +168,16 @@ export default function Home() {
 
         <motion.div
           variants={fadeBlurUp}
-          className="flex flex-col text-zinc-800 dark:text-zinc-200 text-base font-light leading-relaxed"
+          className="flex flex-col text-zinc-800 dark:text-zinc-200 text-base font-light leading-relaxed max-w-prose"
         >
           {/* CLICKABLE HEADER */}
-          <button onClick={() => setOpen(!open)} className="text-left group">
-            <h3 className="text-zinc-900 dark:text-zinc-100 transition-all duration-300 group-hover:opacity-70">
+          <button
+            onClick={() => setOpen(!open)}
+            className="text-left group cursor-pointer"
+          >
+            <h3 className="text-zinc-900 dark:text-zinc-100 transition-all duration-300 group-hover:opacity-70 group-hover:translate-x-1">
               From idea to shipped product
             </h3>
-
-            <p className="text-zinc-500 text-sm mt-1">Click to expand</p>
           </button>
 
           {/* EXPANDABLE CONTENT */}
@@ -186,9 +187,10 @@ export default function Home() {
               height: open ? "auto" : 0,
               opacity: open ? 1 : 0,
               marginTop: open ? 16 : 0,
+              filter: open ? "blur(0px)" : "blur(4px)",
             }}
             transition={{
-              duration: 0.4,
+              duration: 0.45,
               ease: [0.16, 1, 0.3, 1],
             }}
             className="overflow-hidden flex flex-col gap-4"
@@ -231,6 +233,17 @@ export default function Home() {
         </motion.div>
       </motion.section>
 
+      {/* Final Phrase */}
+      <motion.div
+        variants={fadeBlurUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: false }}
+        className="text-center"
+      >
+        <p className="text-zinc-400 text-sm">Less features. More impact.</p>
+      </motion.div>
+
       {/* Contact */}
       <motion.section
         variants={stagger}
@@ -254,6 +267,9 @@ export default function Home() {
           polches@gmail.com
         </motion.a>
       </motion.section>
+
+      {/* Bottom spacing */}
+      <div className="h-24" />
     </main>
   );
 }
