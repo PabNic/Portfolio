@@ -14,7 +14,9 @@ import { hasLocale, type Locale } from "@/lib/i18n";
 export const maxDuration = 30;
 
 // Guardrails: keep every conversation short and cheap.
-const MODEL = "anthropic/claude-haiku-5.5";
+// Default works on the AI Gateway free tier. Override with PORTFOLIO_MODEL
+// (e.g. "anthropic/claude-haiku-5.5") once the account has paid credits.
+const MODEL = process.env.PORTFOLIO_MODEL || "google/gemini-2.5-flash";
 const MAX_HISTORY = 8; // messages sent to the model
 const MAX_USER_TURNS = 8; // per conversation
 const MAX_CHARS = 500; // per user message
@@ -40,6 +42,7 @@ function instructions(lang: Locale) {
 
 Rules:
 - Answer ONLY from the data returned by your tools. Always call a tool before stating facts about Pablo. Never invent companies, metrics, dates, salaries or skills. If something isn't in the data, say you don't know and suggest emailing Pablo at ${profile.email}.
+- For questions about how or why a project was built, call getProjects with that project's slug to read the full case study (decisions, architecture, outcome), and mention the concrete decisions.
 - Speak about Pablo in the third person, warmly and confidently, but without exaggerating.
 - Be concise: 2–5 short sentences or a short bullet list. No headings.
 - When relevant, connect his experience to the role the user mentions (AI Product Engineer, Technical PM, Product Owner, full-stack).

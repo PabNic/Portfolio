@@ -20,15 +20,16 @@ const MAX_TURNS = 8;
 const MAX_CHARS = 500;
 
 function inline(text: string): ReactNode[] {
-  return text.split(/(\*\*[^*]+\*\*)/g).map((chunk, i) =>
-    chunk.startsWith("**") && chunk.endsWith("**") ? (
-      <strong key={i} className="font-medium text-fg">
-        {chunk.slice(2, -2)}
-      </strong>
-    ) : (
-      chunk
-    ),
-  );
+  return text.split(/(\*\*[^*]+\*\*|\*[^*\s][^*]*\*)/g).map((chunk, i) => {
+    if (chunk.startsWith("**") && chunk.endsWith("**"))
+      return (
+        <strong key={i} className="font-medium text-fg">
+          {chunk.slice(2, -2)}
+        </strong>
+      );
+    if (chunk.length > 2 && chunk.startsWith("*") && chunk.endsWith("*")) return <em key={i}>{chunk.slice(1, -1)}</em>;
+    return chunk;
+  });
 }
 
 function Markdownish({ text }: { text: string }) {
