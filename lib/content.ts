@@ -25,11 +25,13 @@ export type Project = {
   period: string;
   status: string;
   live?: string;
+  repo?: string;
   hats: ("ai" | "eng" | "pm")[];
   stack: string[];
   cover?: string;
   highlights: string[];
   caseStudy: {
+    metrics?: { value: string; label: string }[];
     context: string;
     problem: string;
     decisions: { title: string; body: string }[];
@@ -99,6 +101,7 @@ type Content = {
     learned: string;
     next: string;
     visit: string;
+    code: string;
     cta: string;
   };
   projects: Project[];
@@ -279,6 +282,7 @@ const en: Content = {
     learned: "What I'd tell the next team",
     next: "Next case study",
     visit: "Visit live site",
+    code: "View the code",
     cta: "Want this kind of work on your team?",
   },
   projects: [
@@ -399,49 +403,61 @@ const en: Content = {
     {
       slug: "travel-quote-agent",
       name: "Travel Quote Agent",
-      kicker: "Claude agent workflow",
-      oneLiner: "An agent that turns a client's trip request into a ready-to-price quote inside the agency's booking platform.",
+      kicker: "AI agent with guardrails and evals",
+      oneLiner: "An agent that turns a client's messy trip request into a checked, ready-to-send quote. It's 3× faster on custom trips, and the seller stays in control of prices and bookings.",
       role: "Founder & Product Lead · PatagonLabs",
       period: "2026",
-      status: "In use",
-      hats: ["ai", "pm"],
-      stack: ["Claude", "Agent workflows", "Browser automation", "Google Sheets"],
+      status: "In daily use · open source",
+      repo: "https://github.com/PabNic/travel-quote-agent",
+      hats: ["ai", "eng", "pm"],
+      stack: ["Claude Code", "Browser automation", "TypeScript", "Vercel AI SDK", "AI Gateway", "Zod", "Evals", "node:test"],
       highlights: [
-        "Searches packaged deals and promotions",
-        "Assembles flights and hotels via browser automation",
-        "Prepares the hand-off sheet for operations",
+        "Custom-trip quotes: 8–15 min → 3–5 min",
+        "Rules enforced in code, not only in the prompt",
+        "Eval suite: 77/78 checks across 8 real scenarios",
       ],
       caseStudy: {
+        metrics: [
+          { value: "8–15 → 3–5 min", label: "per custom-trip quote" },
+          { value: "~5 → <1 min", label: "to find a package with seats" },
+          { value: "77/78", label: "eval checks passed (8 cases × 3 runs)" },
+        ],
         context:
-          "A travel agency's sellers spent a large part of each request clicking through the booking platform: searching packages, comparing promos, assembling flights and hotels by hand.",
+          "At a travel agency in Argentina, every client request starts on WhatsApp and ends in the agency's booking platform. I built this agent for that sales flow, and I use it every day as a seller.",
         problem:
-          "Quotes were slow and inconsistent, and the hand-off to the operations team often missed details. The booking platform has no API — everything happens in its web UI.",
+          "A custom-trip quote took 8 to 15 minutes of searching and cross-checking, and the platform is full of traps. Some results land in another city's airport. Some flights arrive at dawn with small children on board. Some rooms are too small for the family, and some packages look available but have no seats. On top of that, the seller must never quote a price that isn't theirs to give.",
         decisions: [
           {
-            title: "Automate the clicks, keep the judgment",
-            body: "The agent searches deals, assembles options and saves the quote — a human prices and approves it. That kept the agency in control of every client-facing number.",
+            title: "If a rule can be code, it's code",
+            body: "The prompt explains each rule, and the code enforces it. Catalog search only returns packages that are for sale and have seats. A package can't be offered until its seats are checked. The client message is rejected if it includes prices for a custom trip, budget comparisons, links or personal data.",
           },
           {
-            title: "Browser automation where there's no API",
-            body: "Instead of waiting for an integration that would never come, the agent operates the booking platform's UI the way a seller does.",
+            title: "The safest guardrail is a missing tool",
+            body: "The agent has no tool to book and no tool that accepts passenger data. If it's asked to book, the only thing it can do is hand that step back to the seller.",
           },
           {
-            title: "Structured hand-off",
-            body: "Every quote ends with a standard sheet for operations, so nothing gets lost between sales and booking.",
+            title: "Humans approve every write",
+            body: "Saving a quote goes through tool approval, so it happens only when the seller says yes. Every turn ends in a structured hand-off: either a question for the seller or a proposal that has passed the checks.",
+          },
+          {
+            title: "QA in code on every trip",
+            body: "Nine deterministic checks run every time a trip is built: wrong airport, a check-in that doesn't match the arrival, a dawn arrival, long layovers, room capacity, non-refundable rates and more. The agent has to fix the warnings and build the trip again.",
           },
         ],
         architecture: [
-          "Client trip request → Claude agent",
-          "Search packaged deals and promotions",
-          "Assemble flights + hotels in the booking platform (browser automation)",
-          "Save quote for pricing → generate operations hand-off sheet",
+          "Seller pastes the client's request → agent asks for anything critical that's missing",
+          "Ready-made packages first, with a live seat check before offering",
+          "Otherwise: flights + hotels → trip builder → QA checks → fix and rebuild",
+          "Quote saved only after the seller approves",
+          "Proposal checked by guardrails → internal notes + client message",
         ],
         outcome: [
-          "Sellers start from an assembled quote instead of a blank screen",
-          "Consistent hand-off sheets for the operations team",
+          "In daily production use, built as a Claude Code skill on the agency's real booking platform",
+          "Custom-trip quotes take 3–5 min instead of 8–15, and package searches take under 1 min instead of ~5",
+          "Open-source TypeScript version with a simulated backoffice, unit tests and an eval suite at 77/78",
         ],
         learned:
-          "The best agent workflows mirror how the expert already works. I mapped the seller's exact steps first, then automated them one by one.",
+          "The evals made the agent better, not the prompt. Each failure pointed to a fix in code: first a structured hand-off, then a smarter search. The one failure left is already the next fix on the list. A rule you can test beats one you can only ask for.",
       },
     },
     {
@@ -698,6 +714,7 @@ const es: Content = {
     learned: "Lo que le diría al próximo equipo",
     next: "Siguiente caso",
     visit: "Ver sitio en vivo",
+    code: "Ver el código",
     cta: "¿Querés este tipo de trabajo en tu equipo?",
   },
   projects: [
@@ -795,27 +812,42 @@ const es: Content = {
     {
       ...en.projects[2],
       name: "Agente de Cotización de Viajes",
-      kicker: "Flujo de agentes con Claude",
-      oneLiner: "Un agente que convierte el pedido de viaje de un cliente en una cotización lista para presupuestar, dentro de la plataforma de reservas.",
-      status: "En uso",
-      highlights: ["Busca paquetes armados y promociones", "Arma vuelos y hoteles con automatización de navegador", "Prepara la planilla para operaciones"],
+      kicker: "Agente de IA con guardrails y evals",
+      oneLiner: "Un agente que convierte el pedido desordenado de un cliente en una cotización revisada y lista para enviar. En viajes a medida es 3 veces más rápido, y el vendedor mantiene el control de los precios y las reservas.",
+      status: "En uso diario · código abierto",
+      highlights: [
+        "Viajes a medida: de 8–15 min a 3–5 min",
+        "Reglas que se cumplen en el código, no solo en el prompt",
+        "Evals: 77/78 checks en 8 escenarios reales",
+      ],
       caseStudy: {
         ...en.projects[2].caseStudy,
-        context: "Los vendedores de una agencia de viajes pasaban gran parte de cada pedido haciendo clics en la plataforma de reservas: buscando paquetes, comparando promos, armando vuelos y hoteles a mano.",
-        problem: "Las cotizaciones eran lentas e inconsistentes, y al pasarlas a operaciones se perdían detalles. La plataforma no tiene API — todo pasa por su interfaz web.",
+        metrics: [
+          { value: "8–15 → 3–5 min", label: "por cotización de viaje a medida" },
+          { value: "~5 → <1 min", label: "para encontrar un paquete con cupos" },
+          { value: "77/78", label: "checks de evals aprobados (8 casos × 3 corridas)" },
+        ],
+        context: "En una agencia de viajes de Argentina, cada pedido de un cliente empieza en WhatsApp y termina en la plataforma de reservas de la agencia. Construí este agente para ese flujo de ventas, y lo uso todos los días como vendedor.",
+        problem: "Una cotización de viaje a medida llevaba entre 8 y 15 minutos de búsqueda y verificación, y la plataforma está llena de trampas. Algunos resultados aterrizan en el aeropuerto de otra ciudad. Algunos vuelos llegan de madrugada con niños pequeños. Algunas habitaciones no alcanzan para la familia, y algunos paquetes parecen disponibles pero no tienen cupos. Además, el vendedor nunca puede pasar un precio que no le corresponde dar.",
         decisions: [
-          { title: "Automatizar los clics, no el criterio", body: "El agente busca, arma opciones y guarda la cotización — una persona la presupuesta y aprueba. La agencia mantiene el control de cada número que ve el cliente." },
-          { title: "Automatización de navegador donde no hay API", body: "En lugar de esperar una integración que nunca iba a llegar, el agente opera la interfaz como lo haría un vendedor." },
-          { title: "Traspaso estructurado", body: "Cada cotización termina con una planilla estándar para operaciones, así nada se pierde entre ventas y reservas." },
+          { title: "Si una regla puede ser código, es código", body: "El prompt explica cada regla y el código la hace cumplir. La búsqueda de paquetes solo devuelve los que están a la venta y tienen cupos. Un paquete no se puede ofrecer sin verificar sus cupos. El mensaje al cliente se rechaza si lleva precios de un viaje a medida, comparaciones con su presupuesto, links o datos personales." },
+          { title: "El guardrail más seguro es la herramienta que no existe", body: "El agente no tiene ninguna herramienta para reservar ni para cargar datos de pasajeros. Si le piden reservar, lo único que puede hacer es devolverle ese paso al vendedor." },
+          { title: "Una persona aprueba cada escritura", body: "Guardar una cotización pasa por una aprobación, así que solo se guarda cuando el vendedor dice que sí. Cada turno termina con una entrega estructurada: una pregunta al vendedor o una propuesta que pasó los controles." },
+          { title: "Controles de calidad en código para cada viaje", body: "Cada vez que se arma un viaje corren 9 controles deterministas: aeropuerto equivocado, check-in que no coincide con la llegada, llegada de madrugada, escalas largas, capacidad de la habitación, tarifas no reembolsables y más. El agente tiene que resolver las alertas y volver a armar el viaje." },
         ],
         architecture: [
-          "Pedido del cliente → agente con Claude",
-          "Búsqueda de paquetes armados y promociones",
-          "Armado de vuelos + hoteles en la plataforma (automatización de navegador)",
-          "Guarda la cotización para presupuestar → genera la planilla para operaciones",
+          "El vendedor pega el pedido → el agente pregunta los datos críticos que falten",
+          "Primero, paquetes armados, verificando los cupos en vivo antes de ofrecerlos",
+          "Si no hay: vuelos + hoteles → armado del viaje → controles de calidad → corregir y rearmar",
+          "La cotización se guarda solo con la aprobación del vendedor",
+          "Los guardrails revisan la propuesta → notas internas + mensaje para el cliente",
         ],
-        outcome: ["Los vendedores parten de una cotización armada en lugar de una pantalla en blanco", "Planillas de traspaso consistentes para operaciones"],
-        learned: "Los mejores flujos de agentes copian cómo ya trabaja el experto. Primero mapeé los pasos exactos del vendedor, después los automaticé uno por uno.",
+        outcome: [
+          "En uso diario en producción, como skill de Claude Code sobre la plataforma de reservas real de la agencia",
+          "Un viaje a medida lleva 3–5 min en lugar de 8–15, y encontrar un paquete lleva menos de 1 min en lugar de ~5",
+          "Versión open source en TypeScript con backoffice simulado, tests unitarios y evals en 77/78",
+        ],
+        learned: "Lo que mejoró al agente fueron las evals, no el prompt. Cada falla señaló un arreglo en el código: primero una entrega estructurada, después una búsqueda más inteligente. La única falla que queda ya es el próximo arreglo de la lista. Una regla que se puede testear vale más que una que solo se puede pedir.",
       },
     },
     {

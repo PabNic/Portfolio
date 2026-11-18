@@ -64,10 +64,28 @@ export default async function CaseStudy({ params }: PageProps<"/[lang]/work/[slu
           <h1 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.03em] sm:text-6xl">{p.name}</h1>
           <p className="mt-2 text-lg text-fg-3">{p.kicker}</p>
           <p className="mt-6 max-w-3xl text-pretty text-xl leading-relaxed text-fg-2">{p.oneLiner}</p>
-          {p.live && (
-            <a href={p.live} target="_blank" rel="noreferrer" className="mt-8 inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-accent-ink transition hover:brightness-110">
-              {L.visit} <External />
-            </a>
+          {(p.live || p.repo) && (
+            <div className="mt-8 flex flex-wrap gap-3">
+              {p.live && (
+                <a href={p.live} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-accent-ink transition hover:brightness-110">
+                  {L.visit} <External />
+                </a>
+              )}
+              {p.repo && (
+                <a
+                  href={p.repo}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={
+                    p.live
+                      ? "inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium ring-1 ring-line-strong transition hover:bg-white/5"
+                      : "inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-sm font-medium text-accent-ink transition hover:brightness-110"
+                  }
+                >
+                  {L.code} <External />
+                </a>
+              )}
+            </div>
           )}
         </Reveal>
 
@@ -85,6 +103,19 @@ export default async function CaseStudy({ params }: PageProps<"/[lang]/work/[slu
             ))}
           </dl>
         </Reveal>
+
+        {cs.metrics && (
+          <Reveal>
+            <div className="mt-4 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-3">
+              {cs.metrics.map((m) => (
+                <div key={m.label} className="bg-bg-elev p-5">
+                  <p className="text-2xl font-semibold tracking-tight text-accent">{m.value}</p>
+                  <p className="mt-1 text-sm text-fg-2">{m.label}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        )}
 
         {p.cover && (
           <Reveal>
