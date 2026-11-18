@@ -41,9 +41,9 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
       description: meta.description,
       type: "website",
       locale: lang === "es" ? "es_AR" : "en_US",
-      images: ["/work/thaska-home.png"],
+      images: [{ url: "/og.png", width: 1200, height: 627, alt: meta.title }],
     },
-    twitter: { card: "summary_large_image", title: meta.title, description: meta.description },
+    twitter: { card: "summary_large_image", title: meta.title, description: meta.description, images: ["/og.png"] },
   };
 }
 
