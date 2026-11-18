@@ -51,6 +51,8 @@ type Content = {
     ctaWork: string;
     ctaAsk: string;
     badges: string[];
+    photoAlt: string;
+    now: { label: string; text: string };
   };
   stats: { value: string; label: string }[];
   work: { eyebrow: string; title: string; lede: string; readCase: string; visit: string; featured: string };
@@ -117,6 +119,8 @@ const en: Content = {
     ctaWork: "See my work",
     ctaAsk: "Ask my AI about me",
     badges: ["Remote · GMT-3", "EU work authorization (Italian citizen)", "English C1 · Spanish native · Portuguese (professional)"],
+    photoAlt: "Pablo Bottoni",
+    now: { label: "Now in production", text: "AI shopping assistant · Thaska Andina" },
   },
   stats: [
     { value: "5 yrs", label: "full-stack development" },
@@ -534,6 +538,8 @@ const es: Content = {
     ctaWork: "Ver proyectos",
     ctaAsk: "Preguntale a mi IA",
     badges: ["Remoto · GMT-3", "Ciudadanía europea (italiana)", "Inglés C1 · Español nativo · Portugués (profesional)"],
+    photoAlt: "Pablo Bottoni",
+    now: { label: "Hoy en producción", text: "Asistente de compras con IA · Thaska Andina" },
   },
   stats: [
     { value: "5 años", label: "de desarrollo full-stack" },

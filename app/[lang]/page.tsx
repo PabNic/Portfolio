@@ -23,18 +23,29 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <section className="relative overflow-clip">
           <div className="grid-bg pointer-events-none absolute inset-0" />
           <div className="pointer-events-none absolute left-1/2 top-[-200px] h-[500px] w-[900px] -translate-x-1/2 rounded-full bg-accent/[0.07] blur-[120px]" />
-          <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-36 sm:px-6 sm:pb-28 sm:pt-44">
+          <div className="relative mx-auto grid max-w-6xl gap-6 px-4 sm:px-6 lg:grid-cols-[1fr_380px]">
+          <div className="pb-20 pt-32 sm:pb-28 sm:pt-44">
             <Reveal>
-              <p className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-line bg-bg-elev/80 px-3.5 py-1.5 font-mono text-xs text-fg-2">
-                <span className="relative flex size-2">
-                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
-                  <span className="relative inline-flex size-2 rounded-full bg-accent" />
-                </span>
-                {c.hero.eyebrow}
-              </p>
+              <div className="mb-8 flex items-center gap-3">
+                <Image
+                  src="/pablo-avatar.webp"
+                  alt={c.hero.photoAlt}
+                  width={160}
+                  height={160}
+                  priority
+                  className="size-12 rounded-full ring-2 ring-accent/40 lg:hidden"
+                />
+                <p className="inline-flex items-center gap-2.5 rounded-full border border-line bg-bg-elev/80 px-3.5 py-1.5 font-mono text-xs text-fg-2">
+                  <span className="relative flex size-2 shrink-0">
+                    <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent opacity-60" />
+                    <span className="relative inline-flex size-2 rounded-full bg-accent" />
+                  </span>
+                  {c.hero.eyebrow}
+                </p>
+              </div>
             </Reveal>
             <Reveal delay={0.05}>
-              <h1 className="max-w-4xl text-balance text-[2.6rem] font-semibold leading-[1.05] tracking-[-0.035em] sm:text-6xl lg:text-7xl">
+              <h1 className="max-w-4xl text-balance text-[2.6rem] font-semibold leading-[1.05] tracking-[-0.035em] sm:text-6xl lg:text-[4.1rem]">
                 {c.hero.title} <span className="text-fg-3">{c.hero.titleAccent}</span>
               </h1>
             </Reveal>
@@ -68,6 +79,28 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 </li>
               </ul>
             </Reveal>
+          </div>
+
+          {/* PHOTO (desktop) */}
+          <Reveal delay={0.1} className="relative hidden self-end lg:block">
+            <div className="pointer-events-none absolute bottom-0 left-1/2 h-[380px] w-[380px] -translate-x-1/2 rounded-full bg-accent/[0.13] blur-[90px]" />
+            <div className="pointer-events-none absolute bottom-0 left-1/2 h-[330px] w-[330px] -translate-x-1/2 rounded-full border border-line-strong/70" />
+            <Image
+              src="/pablo.webp"
+              alt={c.hero.photoAlt}
+              width={542}
+              height={640}
+              priority
+              className="relative h-auto w-full [mask-image:linear-gradient(to_bottom,black_72%,transparent)]"
+            />
+            <div className="absolute bottom-16 -left-10 rounded-xl border border-line-strong bg-bg-elev/90 px-4 py-3 shadow-2xl shadow-black/60 backdrop-blur">
+              <p className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-accent">
+                <span className="size-1.5 rounded-full bg-accent" />
+                {c.hero.now.label}
+              </p>
+              <p className="mt-1 text-sm text-fg">{c.hero.now.text}</p>
+            </div>
+          </Reveal>
           </div>
 
           {/* STATS */}
